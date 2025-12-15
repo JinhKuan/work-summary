@@ -499,7 +499,7 @@ _Annual pricing: 2 months free_
 ## Next Steps
 
 1. **Immediate**: Leverage Web3 network - reach out to 5 crypto startups
-2. **Week 1**: Build MVP focused on blockchain intricacies (chain integration, )
+2. **Week 1**: Build MVP validated with its ability to relate blockchain intricacies with feature planning
 3. **Week 2**: Demo to 3 service providers in crypto space
 4. **Month 3**: 5 paying pilots at $3K/month ($15K MRR)
 5. **Month 6**: Expand to healthcare/fintech with proven crypto case studies
