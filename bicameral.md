@@ -38,30 +38,7 @@ Result: 3-month rebuild
 
 ## Industry Examples
 
-### 1. Crypto Custody: Security Requirements
-
-```
-Engineering: "New multi-sig wallet implementation ready for review"
-
-Bicameral CTO: "⚠️ Security + Compliance Gaps:
-From Slack discussion with sales:
-- Enterprise client needs SOC 2 Type II (you have Type I)
-- Insurance requirement: $100M (you have $10M)
-- Disaster recovery: 4-hour RTO promised (current: 24 hours)
-
-🚨 Risk Analysis:
-- Implementing key rotation now = 40% chance of breaking existing wallets
-- $50M in customer funds at risk during migration
-- Alternative: Build new wallet system in parallel (safer but 2x time)
-
-⏰ Business Timeline:
-- Enterprise client decision deadline: 4 weeks
-- Current implementation time: 8-10 weeks
-
-✅ Recommendation: Tell sales 'conditional yes' - start parallel implementation while negotiating extended timeline"
-```
-
-### 2. Fintech: Availability & Resilience
+### 1. Fintech: Availability & Resilience
 
 ```
 PM: "Let's add peer-to-peer instant transfers for the holidays"
@@ -85,7 +62,7 @@ Bicameral CTO: "⚠️ Availability Analysis:
 ✅ Smart Path: Launch with transaction limits ($500/day), remove after holidays when system proven"
 ```
 
-### 3. Trading Platform: Latency Optimization
+### 2. Trading Platform: Latency Optimization
 
 ```
 Engineer: "New order matching engine is ready, passes all tests"
@@ -110,7 +87,7 @@ Bicameral CTO: "🚨 Latency Audit:
 ✅ Safer Approach: Fix connection pooling first (quick win: 45ms→20ms), defer async writes until after pilot"
 ```
 
-### 4. Healthcare: HIPAA Data Handling
+### 3. Healthcare: HIPAA Data Handling
 
 ```
 CEO: "Urgent - major hospital wants our API to pull patient records"
@@ -140,28 +117,7 @@ Bicameral CTO: "⚠️ HIPAA Compliance Check:
 Result: Start pilot on time, achieve compliance before real PHI"
 ```
 
-### 5. Crypto Exchange: Multi-Jurisdictional Compliance
-
-```
-PM: "Let's add support for EU customers next sprint"
-
-Bicameral CTO: "🚨 Compliance Analysis:
-- MiCA regulations effective July 2024
-- Required: Legal entity in EU (3-6 months)
-- Travel Rule implementation mandatory
-- Local custody requirements differ by country
-- Your current KYC flow missing 5 required fields
-- Estimated changes: 147 files across 12 services
-
-⏰ Timeline Context from Slack:
-- Marketing launching EU campaign in 3 weeks
-- Beta users onboarding starts in 2 weeks
-
-❌ CRITICAL CONFLICT: 4-5 month compliance timeline vs 2-week beta launch
-✅ Recommendation: Delay EU launch OR start with UK (non-EU) first"
-```
-
-### 6. E-commerce Checkout: Business Logic Gaps
+### 4. E-commerce Checkout: Business Logic Gaps
 
 ```
 PM: "Add Apple Pay to checkout - competitors have it"
@@ -193,6 +149,96 @@ Technical gaps that will cause issues:
 3. Week 4-8: Properly implement Apple Pay
 4. Launch Apple Pay after holiday rush when stable"
 ```
+
+## Initial Product Touchpoints
+
+### Two Primary Integration Points
+
+**1. Slack - Continuous Monitoring & Proactive Assistance**
+
+Engineers interact with Bicameral through Slack in two ways:
+
+- **Passive Monitoring**: Bicameral continuously monitors Slack channels for requirements discussions, automatically capturing context from:
+
+  - Product planning threads
+  - Customer support escalations
+  - Sales team promises
+  - Executive announcements
+  - AI-generated meeting transcripts posted to channels
+
+- **Active Commands**: Engineers can proactively check feasibility and get guidance:
+
+  ```
+  /bicameral check "implement instant settlement feature"
+  → "⚠️ Based on compliance discussion in #legal (3 days ago),
+     this requires Reg E compliance. Current codebase missing:
+     - Error resolution procedures (15 days max)
+     - Provisional credit logic (10 business days)
+     - Investigation workflow (45-90 days)
+     Estimated effort: 6-8 weeks vs 2 weeks for basic version"
+
+  /bicameral requirements "payment processing"
+  → "📋 Assembled from last 30 days:
+     - Sub-100ms latency (promised to Enterprise client - #sales)
+     - PCI DSS Level 1 compliance (mentioned in all-hands)
+     - Support for 15 currencies (customer call transcript)
+     - Automatic retry logic (support ticket pattern)
+     - Real-time fraud scoring (competitor analysis doc)"
+  ```
+
+**2. GitHub - Code Review & Alignment Enforcement**
+
+The GitHub integration catches misalignments before they reach production:
+
+- **Pull Request Analysis**: When engineers submit PRs, Bicameral automatically:
+
+  - Scans implementation against assembled requirements
+  - Flags missing compliance elements
+  - Identifies performance gaps
+  - Highlights security concerns
+
+- **Example PR Comment**:
+
+  ```markdown
+  🚨 Bicameral Review - Requirements Misalignment Detected
+
+  This PR implements basic payment processing but misses critical requirements:
+
+  ❌ **Latency Requirement** (from #sales-engineering, 2 weeks ago)
+
+  - Required: <100ms P99 latency
+  - Current implementation: ~250ms (synchronous DB writes detected)
+  - Files: payment_service.py:45-89
+
+  ❌ **Compliance Gap** (from legal@company.com email thread)
+
+  - Missing: Reg E error resolution procedures
+  - Impact: Cannot go live without this
+  - Reference: compliance_requirements.md
+
+  ⚠️ **Performance Risk** (from #incidents channel history)
+
+  - Similar synchronous pattern caused 3 outages last quarter
+  - Suggestion: Use async job queue (see: order_service.py:120)
+
+  **Recommended Actions:**
+
+  1. Create TODO ticket for async refactor
+  2. Schedule compliance review with legal
+  3. Add performance tests before merge
+
+  💬 Reply with:
+
+  - `/bicameral create-ticket` to auto-generate JIRA tickets
+  - `/bicameral discuss @legal` to loop in compliance team
+  - `/bicameral approve-with-debt` to merge with tech debt tracking
+  ```
+
+- **Engineer Workflow**: When flagged, engineers can:
+  1. **Create TODO tickets** directly from the PR with all context preserved
+  2. **Start discussions** by tagging relevant stakeholders
+  3. **Get implementation suggestions** based on existing patterns in codebase
+  4. **Track technical debt** if shipping with known gaps
 
 ## Founder-Market Fit Story
 
