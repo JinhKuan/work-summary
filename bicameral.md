@@ -4,22 +4,26 @@ _Created: 2025-12-10_
 
 ## Executive Summary
 
-Bicameral is positioned as a "Virtual CTO for regulated industries" that automatically assembles mission-critical requirements from scattered sources (Slack, docs, meetings, code) to prevent expensive rework. The core insight: requirements get lost in the business → engineering handoff, causing engineering time to be wasted on rebuilds.
+Bicameral is a "Virtual CTO for regulated industries" that prevents the #1 cause of engineering waste: building the wrong thing. We create a bidirectional bridge: surfacing hidden requirements from Slack to engineers during PR reviews, while translating technical prerequisites into business impact for product teams. The result: engineers see what sales promised before they build, and product understands why "simple" features need refactors.
 
 ## Wedge Positioning
 
-**"The AI that assembles your mission-critical requirements from scattered sources and ensure codebase alignment"**
+**"The AI that assembles your mission-critical requirements from scattered sources and ensures codebase alignment"**
 
-- "Mission-critical requirements"
-- Every regulated industry has different mission-critical requirements:
+- Mission-critical requirements vary by industry:
   - Trading: Latency (<10ms or traders leave)
   - FinTech: Compliance (violations = fines)
   - Healthcare: Privacy (HIPAA = existential)
   - Payments: Availability (downtime = lost revenue)
 
+- Plus the universal translation problem:
+  - Engineer: "We need to refactor first" → Business: "That's just cleanup"
+  - Business: "Just add Apple Pay" → Engineer: "It'll break everything"
+  - Bicameral: Shows exactly what refactors unlock & what shortcuts cost
+
 ## Key insight
 
-Requirements aren't missing - they're scattered across Slack threads, sales calls, compliance docs, wiki pages, and mental models. They become expensive afterthoughts because no one has the complete picture during planning, and the means that sometimes important details get sidelined.
+Requirements aren't missing - they're scattered across Slack, sales calls, docs, and code. The expensive part: Business speaks in outcomes ("instant payments"), Engineering speaks in constraints ("needs refactor first"). Without translation, you get 3-month rebuilds. Bicameral bridges this gap - surfacing ALL requirements AND explaining technical prerequisites in business terms.
 
 ## The Core Problem Pattern
 
@@ -150,6 +154,28 @@ Technical gaps that will cause issues:
 4. Launch Apple Pay after holiday rush when stable"
 ```
 
+### 5. Refactor Translation: Making Tech Debt Visible
+
+```
+Engineer: "We need to refactor the payment module before adding Apple Pay"
+
+Bicameral Impact Brief: "📄 Payment Module Refactor - Business Case:
+
+NOT CLEANUP - This unlocks $2M in Q1 features:
+• Apple Pay (promised to Enterprise client)
+• Multi-currency (EU expansion blocked)
+• Automated refunds (40% of support tickets)
+
+Current Reality: Payment logic scattered across 47 files
+Business Impact: Each payment feature takes 3x longer + high outage risk
+
+Two Paths:
+1. Ship Apple Pay now (4 weeks) → Only works with Stripe, blocks other features
+2. Refactor first (2 weeks) → Then Apple Pay (1 week) + all features possible
+
+Evidence: Last payment change = 2-hour outage costing $180K"
+```
+
 ## Initial Product Touchpoints
 
 ### Two Primary Integration Points
@@ -169,13 +195,21 @@ Engineers interact with Bicameral through Slack in two ways:
 - **Active Commands**: Engineers can proactively check feasibility and get guidance:
 
   ```
-  /bicameral check "implement instant settlement feature"
+  /feasibility "implement instant settlement feature"
   → "⚠️ Based on compliance discussion in #legal (3 days ago),
      this requires Reg E compliance. Current codebase missing:
      - Error resolution procedures (15 days max)
      - Provisional credit logic (10 business days)
      - Investigation workflow (45-90 days)
-     Estimated effort: 6-8 weeks vs 2 weeks for basic version"
+     
+     🔧 PREREQUISITE DETECTED: Payment abstraction refactor
+     - Why: Current code tightly coupled to ACH-only flow
+     - Unlocks: Instant settlement + wire transfers + international payments
+     - Two paths:
+       • Ship now (8 weeks): Build around current structure, limited to domestic
+       • Refactor first (2+6 weeks): Clean architecture, all payment types
+     
+     [Get Impact Brief] [Show Dependencies]"
 
   /bicameral requirements "payment processing"
   → "📋 Assembled from last 30 days:
@@ -186,16 +220,23 @@ Engineers interact with Bicameral through Slack in two ways:
      - Real-time fraud scoring (competitor analysis doc)"
   ```
 
-**2. GitHub - Code Review & Alignment Enforcement**
+**2. GitHub - Bidirectional Context Bridge**
 
-The GitHub integration catches misalignments before they reach production:
+The GitHub integration creates a two-way flow of context:
 
-- **Pull Request Analysis**: When engineers submit PRs, Bicameral automatically:
+- **Product → Engineering**: When engineers submit PRs, Bicameral automatically surfaces all relevant product context:
 
-  - Scans implementation against assembled requirements
-  - Flags missing compliance elements
-  - Identifies performance gaps
-  - Highlights security concerns
+  - What sales promised to specific customers
+  - Compliance requirements mentioned in Slack/email
+  - Performance expectations from executive meetings
+  - Timeline pressures from marketing campaigns
+  
+- **Engineering → Product**: When PRs involve refactors or technical changes, Bicameral translates impact:
+
+  - What features this refactor unlocks
+  - Why the current code structure blocks certain features
+  - Timeline differences between "quick fix" vs "proper solution"
+  - Business risk of taking shortcuts
 
 - **Example PR Comment**:
 
@@ -232,6 +273,25 @@ The GitHub integration catches misalignments before they reach production:
   - `/bicameral create-ticket` to auto-generate JIRA tickets
   - `/bicameral discuss @legal` to loop in compliance team
   - `/bicameral approve-with-debt` to merge with tech debt tracking
+  ```
+
+- **Slack PR Notification Enhancement** (Auto-posted by Bicameral):
+
+  When GitHub posts a PR to Slack, Bicameral automatically adds context:
+
+  ```
+  [GitHub] Jin opened PR #245: Refactor payment module
+
+  💬 Bicameral: This refactor unlocks 3 blocked features:
+  • Apple Pay (promised in #sales 2 weeks ago)
+  • Multi-currency (CEO mentioned in all-hands)
+  • Automated refunds (40% of support tickets)
+  
+  Two paths:
+  → Ship features now: 12 weeks total (work around current structure)
+  → Merge refactor first: 3 weeks total (clean implementation)
+  
+  📊 See full impact analysis in PR comments
   ```
 
 - **Engineer Workflow**: When flagged, engineers can:
@@ -406,9 +466,9 @@ At 10-50 employees, startups face unique challenges:
 
 2. **The Solution**: "Bicameral automatically assembles mission-critical requirements from ALL your sources - Slack threads, sales calls, docs, code - BEFORE you build"
 
-3. **The Differentiator**: "We don't search your past, we predict your future requirements"
+3. **The Differentiator**: "We translate between business and engineering - turning 'we need a refactor' into ROI decisions with clear unlocks"
 
-4. **The ROI**: "Prevent one major rebuild = pays for itself for a year"
+4. **The ROI**: "Prevent one major rebuild = pays for itself for a year. Make refactors legible = unlock millions in blocked features"
 
 ## Overcoming Price Objections
 
